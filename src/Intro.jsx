@@ -32,6 +32,7 @@ export default function Intro({ onContinue }) {
     // Pick a random quote
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
     setQuote(randomQuote);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
