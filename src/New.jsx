@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react"; //this
 import CustomSelect from "./CustomSelect";
 
 export default function New({ onAddTask }) {
   const [task, setTask] = useState("");
   const [category, setCategory] = useState("work");
+  const inputRef = useRef(null);
 
   const categoryOptions = [
     { value: "work", label: "Work" },
@@ -26,9 +27,15 @@ export default function New({ onAddTask }) {
     setTask("");
   }
 
+  // Blur the input to dismiss keyboard
+  if (inputRef.current) {
+    inputRef.current.blur();
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <input
+        ref={inputRef} //this
         type="text"
         value={task}
         onChange={(e) => setTask(e.target.value)}

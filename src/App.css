@@ -8,7 +8,7 @@ body {
   font-family:
     -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Display", "Segoe UI",
     "Roboto", sans-serif;
-  background-color: #e8e8e3;
+  background-color: #fff4e9;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,7 +17,7 @@ body {
 }
 
 .app {
-  background-color: #f5f5f0;
+  background-color: #fff4e9;
   padding: 40px 32px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   min-height: 100vh;
@@ -98,7 +98,7 @@ body {
 .PersonalS2 {
   font-size: 16px;
   font-weight: 400;
-  color: #2a2a2a;
+  color: #333333;
   line-height: 1.5;
   cursor: pointer;
   flex: 1;
@@ -131,7 +131,7 @@ body {
 .HouseS2 {
   font-size: 16px;
   font-weight: 400;
-  color: #2a2a2a;
+  color: #333333;
   line-height: 1.5;
   cursor: pointer;
   flex: 1;
@@ -203,7 +203,7 @@ form input[type="text"] {
   flex: 1;
   font-size: 15px;
   font-weight: 400;
-  color: #2a2a2a;
+  color: #333333;
   background-color: #ffffff;
   border: 2px solid #e0e0d8;
   border-radius: 50px;
@@ -253,14 +253,14 @@ form input:hover {
   padding: 12px 16px;
   font-size: 14px;
   font-weight: 500;
-  color: #2a2a2a;
+  color: #333333;
   background-color: #ffffff;
   border: 2px solid #e0e0d8;
 }
 
 /* Add Button */
 form button {
-  background-color: #2c2c2c;
+  background-color: #333333;
   color: #ffffff;
   font-size: 14px;
   font-weight: 600;
@@ -487,5 +487,43 @@ form button:active {
     max-width: 900px;
     margin: 0 auto;
     border-radius: 12px;
+  }
+}
+
+/* Fix keyboard covering inputs on mobile */
+@media (max-width: 480px) {
+  /* Ensure form is visible when keyboard appears */
+  form {
+    margin-bottom: 20px;
+  }
+
+  /* Add padding to bottom of app when input is focused */
+  .app {
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+  }
+
+  /* Scroll input into view when focused */
+  form input[type="text"]:focus {
+    scroll-margin-bottom: 300px;
+  }
+}
+
+.past-date-message {
+  text-align: center;
+  padding: 20px;
+  margin-top: 20px;
+  background-color: #fff5f5;
+  border: 2px solid #f4a889;
+  border-radius: 12px;
+  color: #333333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .past-date-message {
+    font-size: 13px;
+    padding: 16px;
+    margin-top: 16px;
   }
 }

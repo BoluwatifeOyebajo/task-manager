@@ -72,7 +72,24 @@ export default function App() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
+  // function handleAddTask(task) {
+  //   const taskWithDate = {
+  //     ...task,
+  //     date: selectedDate,
+  //   };
+  //   setTasks((tasks) => [...tasks, taskWithDate]);
+  // }
+
   function handleAddTask(task) {
+    // Get today's date string (without time)
+    const today = new Date().toDateString();
+
+    // Check if selected date is in the past
+    if (selectedDate < today) {
+      alert("You cannot add tasks to past dates!");
+      return;
+    }
+
     const taskWithDate = {
       ...task,
       date: selectedDate,
@@ -131,6 +148,7 @@ export default function App() {
         onAddTask={handleAddTask}
         onDeleteTask={handleDeleteTask}
         onBack={() => handleNavigate("home")}
+        selectedDate={selectedDate}
       />
     );
   }
@@ -143,6 +161,7 @@ export default function App() {
         onAddTask={handleAddTask}
         onDeleteTask={handleDeleteTask}
         onBack={() => handleNavigate("home")}
+        selectedDate={selectedDate}
       />
     );
   }
@@ -155,6 +174,7 @@ export default function App() {
         onAddTask={handleAddTask}
         onDeleteTask={handleDeleteTask}
         onBack={() => handleNavigate("home")}
+        selectedDate={selectedDate}
       />
     );
   }
@@ -190,7 +210,18 @@ export default function App() {
         onDeleteTask={handleDeleteTask}
         onNavigate={() => handleNavigate("house")}
       />
-      <New onAddTask={handleAddTask} />
+
+      {/* Only show form if selected date is today or future */}
+      {selectedDate >= new Date().toDateString() && (
+        <New onAddTask={handleAddTask} />
+      )}
+
+      {/* Show message for past dates */}
+      {selectedDate < new Date().toDateString() && (
+        <div className="past-date-message">
+          You cannot add tasks to past dates. Select today or a future date.
+        </div>
+      )}
     </div>
   );
 }

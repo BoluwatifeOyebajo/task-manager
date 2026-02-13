@@ -1,14 +1,15 @@
 /* Personal Page Container */
 .personal-page {
-  background-color: #f5f5f0;
+  background-color: #fff4e9;
   padding: 40px 32px;
   min-height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Display",
-    "Segoe UI", "Roboto", sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Display", "Segoe UI",
+    "Roboto", sans-serif;
 }
 
 .personal-page button[type="button"],
@@ -29,7 +30,7 @@
 .personal-page h2 {
   font-size: 70px;
   font-weight: bold;
-  color: #1a1a1a;
+  color: #333333;
   margin-bottom: 32px;
   letter-spacing: -0.5px;
   text-align: left;
@@ -45,7 +46,7 @@
   font-weight: 650;
   letter-spacing: 0.5px;
   /* text-transform: uppercase; */
-  color: #1a1a1a;
+  color: #333333;
   margin-bottom: 16px;
 }
 
@@ -62,7 +63,7 @@
 .personal-page .PersonalS2 {
   font-size: 16px;
   font-weight: 400;
-  color: #2a2a2a;
+  color: #333333;
   line-height: 1.5;
   cursor: pointer;
   flex: 1;
@@ -124,7 +125,7 @@
   flex: 1;
   font-size: 15px;
   font-weight: 400;
-  color: #2a2a2a;
+  color: #333333;
   background-color: #ffffff;
   border: 2px solid #e0e0d8;
   border-radius: 50px;
@@ -153,7 +154,7 @@
 
 /* Add Button */
 .personal-page form button[type="submit"] {
-  background-color: #2c2c2c;
+  background-color: #333333;
   color: #ffffff;
   font-size: 14px;
   font-weight: 600;
@@ -176,10 +177,19 @@
 }
 
 .completed-header {
-  color: #1a1a1a;
+  color: #333333;
   font-size: 20px;
   font-weight: 650;
   letter-spacing: 0.5px;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+/* Fix keyboard covering inputs on mobile */
+@media (max-width: 480px) {
+  .work-page form input[type="text"]:focus,
+  .personal-page form input[type="text"]:focus,
+  .house-page form input[type="text"]:focus {
+    scroll-margin-bottom: 300px;
+  }
 }

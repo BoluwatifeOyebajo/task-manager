@@ -54,6 +54,7 @@ export default function WeekCalendar({ selectedDate, onDateSelect }) {
                   .toUpperCase()}
               </span>
               <span className="day-number">{day.getDate()}</span>
+              {isToday && <span className="today-indicator"></span>}
             </button>
           );
         })}
