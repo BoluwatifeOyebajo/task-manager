@@ -24,7 +24,6 @@ export default function DesignPage({
 
     if (!newTaskText.trim()) return;
 
-    // Prevent adding tasks to past dates
     if (isPastDate) {
       alert("You cannot add tasks to past dates!");
       return;
@@ -39,10 +38,12 @@ export default function DesignPage({
 
     setNewTaskText("");
 
-    // Blur input to dismiss keyboard
-    if (inputRef.current) {
-      inputRef.current.blur();
-    }
+    // Blur input to dismiss keyboard AFTER state update
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.blur();
+      }
+    }, 100);
   }
 
   return (

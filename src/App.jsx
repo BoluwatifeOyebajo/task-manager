@@ -21,31 +21,38 @@ export default function App() {
     }
   });
 
-  const [page, setPage] = useState("intro"); // Start with intro page
+  const [page, setPage] = useState("intro");
   const [selectedDate, setSelectedDate] = useState(new Date().toDateString());
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstallButton, setShowInstallButton] = useState(false);
 
+  // ✅ ADDED: Helper function to check if date is in the past
+  const isPastDate = () => {
+    const selected = new Date(selectedDate);
+    const today = new Date();
+
+    // Set both to midnight for accurate comparison
+    selected.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    return selected < today;
+  };
+
   // PWA Install Prompt
   useEffect(() => {
     window.addEventListener("beforeinstallprompt", (e) => {
-      // Prevent the mini-infobar from appearing on mobile
       e.preventDefault();
-      // Stash the event so it can be triggered later
       setDeferredPrompt(e);
-      // Show your own install button
       setShowInstallButton(true);
       console.log("PWA install prompt available");
     });
 
-    // Detect if app is already installed
     window.addEventListener("appinstalled", () => {
       console.log("PWA installed successfully");
       setShowInstallButton(false);
     });
   }, []);
 
-  // Function to trigger install
   const handleInstallClick = () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
@@ -72,20 +79,10 @@ export default function App() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  // function handleAddTask(task) {
-  //   const taskWithDate = {
-  //     ...task,
-  //     date: selectedDate,
-  //   };
-  //   setTasks((tasks) => [...tasks, taskWithDate]);
-  // }
-
+  // ✅ UPDATED: Use proper date comparison
   function handleAddTask(task) {
-    // Get today's date string (without time)
-    const today = new Date().toDateString();
-
-    // Check if selected date is in the past
-    if (selectedDate < today) {
+    // Check if selected date is in the past using the helper function
+    if (isPastDate()) {
       alert("You cannot add tasks to past dates!");
       return;
     }
@@ -135,7 +132,6 @@ export default function App() {
     (task) => task.category === "house",
   );
 
-  // Show intro page first
   if (page === "intro") {
     return <Intro onContinue={handleContinueFromIntro} />;
   }
@@ -181,7 +177,6 @@ export default function App() {
 
   return (
     <div className="app">
-      {/* Install Button - shows only when PWA is installable */}
       {showInstallButton && (
         <button className="install-button" onClick={handleInstallClick}>
           Install App
@@ -211,13 +206,9 @@ export default function App() {
         onNavigate={() => handleNavigate("house")}
       />
 
-      {/* Only show form if selected date is today or future */}
-      {selectedDate >= new Date().toDateString() && (
-        <New onAddTask={handleAddTask} />
-      )}
+      {!isPastDate() && <New onAddTask={handleAddTask} />}
 
-      {/* Show message for past dates */}
-      {selectedDate < new Date().toDateString() && (
+      {isPastDate() && (
         <div className="past-date-message">
           You cannot add tasks to past dates. Select today or a future date.
         </div>

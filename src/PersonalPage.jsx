@@ -31,15 +31,18 @@ export default function PersonalPage({
     onAddTask({
       id: Date.now(),
       text: newTaskText,
-      category: "personal",
+      category: "work",
       done: false,
     });
 
     setNewTaskText("");
 
-    if (inputRef.current) {
-      inputRef.current.blur();
-    }
+    // Blur input to dismiss keyboard AFTER state update
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.blur();
+      }
+    }, 100);
   }
 
   return (

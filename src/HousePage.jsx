@@ -17,7 +17,6 @@ export default function HousePage({
   const completedTasks = tasks.filter((task) => task.done);
 
   const isPastDate = selectedDate < new Date().toDateString();
-
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -31,19 +30,19 @@ export default function HousePage({
     onAddTask({
       id: Date.now(),
       text: newTaskText,
-      category: "house",
+      category: "work",
       done: false,
     });
 
     setNewTaskText("");
-  }
 
-  // Proper way to blur after submit
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.blur();
-    }
-  }, [newTaskText]);
+    // Blur input to dismiss keyboard AFTER state update
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.blur();
+      }
+    }, 100);
+  }
 
   return (
     <div className="house-page">

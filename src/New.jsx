@@ -25,11 +25,13 @@ export default function New({ onAddTask }) {
 
     onAddTask(newTask);
     setTask("");
-  }
 
-  // Blur the input to dismiss keyboard
-  if (inputRef.current) {
-    inputRef.current.blur();
+    // Blur input to dismiss keyboard AFTER state update
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.blur();
+      }
+    }, 100);
   }
 
   return (
