@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import "./HousePage.css";
 import House from "./House";
 
