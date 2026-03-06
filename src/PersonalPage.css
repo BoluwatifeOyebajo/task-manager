@@ -1,0 +1,195 @@
+/* Personal Page Container */
+.personal-page {
+  background-color: #fff4e9;
+  padding: 40px 32px;
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Display", "Segoe UI",
+    "Roboto", sans-serif;
+}
+
+.personal-page button[type="button"],
+.personal-page > button:first-child {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #f4a889;
+  cursor: pointer;
+  margin-bottom: 10px;
+  padding: 8px 0;
+  text-align: left;
+  transition: color 0.2s ease;
+}
+
+/* Page Title */
+.personal-page h2 {
+  font-size: 70px;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 32px;
+  letter-spacing: -0.5px;
+  text-align: left;
+}
+
+.personal-page .PersonalC {
+  margin-bottom: 32px;
+  flex: 1;
+}
+
+.personal-page .PersonalH {
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: 0.5px;
+  /* text-transform: uppercase; */
+  color: #333333;
+  margin-bottom: 16px;
+}
+
+.personal-page .PersonalS {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  gap: 16px;
+  background-color: #f1f1ec;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.personal-page .PersonalS2 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #333333;
+  line-height: 1.5;
+  cursor: pointer;
+  flex: 1;
+}
+
+/* Custom Checkbox */
+.personal-page .PersonalS input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border: 2px solid #d0d0c8;
+  border-radius: 4px;
+  background-color: #f5f5f0;
+  cursor: pointer;
+  position: relative;
+  margin-top: 2px;
+  transition: all 0.2s ease;
+}
+
+.personal-page .PersonalS input[type="checkbox"]:hover {
+  border-color: #a0a098;
+}
+
+.personal-page .PersonalS input[type="checkbox"]:checked {
+  background-color: #00b8d4;
+  border-color: #00b8d4;
+}
+
+.personal-page .PersonalS input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Strikethrough when checked */
+.personal-page .PersonalS input[type="checkbox"]:checked + .PersonalS2 {
+  text-decoration: line-through;
+  color: #8a8a82;
+}
+
+/* Add Task Form */
+.personal-page form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+.personal-page form input[type="text"] {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 400;
+  color: #333333;
+  background-color: #ffffff;
+  border: 2px solid #e0e0d8;
+  border-radius: 50px;
+  outline: none;
+  padding: 12px 16px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  min-width: 0;
+}
+
+.personal-page form input[type="text"]:focus {
+  border-color: #f4a889;
+  box-shadow: 0 0 0 3px rgba(244, 168, 137, 0.1);
+  background-color: #ffffff;
+}
+
+.personal-page form input[type="text"]::placeholder {
+  color: #9a9a92;
+  font-weight: 400;
+}
+
+.personal-page form input[type="text"]:hover {
+  border-color: #f4a889;
+  background-color: #fffaf7;
+}
+
+/* Add Button */
+.personal-page form button[type="submit"] {
+  background-color: #333333;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.personal-page form button[type="submit"]:hover {
+  background-color: #f29975;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(244, 168, 137, 0.3);
+}
+
+.personal-page form button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+.completed-header {
+  color: #333333;
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: 0.5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* Fix keyboard covering inputs on mobile */
+@media (max-width: 480px) {
+  .work-page form input[type="text"]:focus,
+  .personal-page form input[type="text"]:focus,
+  .house-page form input[type="text"]:focus {
+    scroll-margin-bottom: 300px;
+  }
+}

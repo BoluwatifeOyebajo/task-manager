@@ -1,0 +1,150 @@
+.week-calendar {
+  margin-bottom: 20px;
+}
+
+.calendar-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #333333;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* Changed from auto to 1fr */
+  gap: 10px;
+  margin-bottom: 30px;
+  width: 100%; /* Added */
+}
+
+.calendar-day {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 8px;
+  background: #f5f5f5;
+  border: 2px solid #a0a098;
+  border-radius: 8px;
+  font-size: 30px;
+  cursor: pointer;
+  min-height: 70px;
+  transition: all 0.2s ease;
+}
+
+.calendar-day:hover {
+  background: #e8e8e8;
+  border-color: #f4a889;
+}
+
+/* Today's date - blue border and dot indicator */
+.calendar-day.today {
+  border-color: #00b8d4;
+  border-width: 3px;
+}
+
+.today-indicator {
+  position: absolute;
+  bottom: 6px;
+  width: 6px;
+  height: 6px;
+  background-color: #00b8d4;
+  border-radius: 50%;
+}
+
+/* Selected date - dark background */
+.calendar-day.selected {
+  background: #333333;
+  color: white;
+  border-color: #2d2d2d;
+}
+
+.calendar-day.selected:hover {
+  background: #3d3d3d;
+}
+
+/* When today is also selected - combine styles */
+.calendar-day.today.selected {
+  background: #2d2d2d;
+  border-color: #00b8d4;
+  border-width: 3px;
+}
+
+.calendar-day.today.selected .today-indicator {
+  background-color: #ffffff;
+}
+
+.day-name {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  opacity: 0.7;
+}
+
+.calendar-day.selected .day-name {
+  opacity: 0.9;
+  color: white;
+}
+
+.day-number {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.calendar-day.selected .day-number {
+  color: white;
+}
+
+.calendar-day:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  .calendar-title {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  .calendar-grid {
+    grid-template-columns: repeat(7, 1fr); /* Full width, equal columns */
+    gap: 6px; /* Smaller gap for mobile */
+    margin-bottom: 24px;
+    width: 100%; /* Full width */
+  }
+
+  .calendar-day {
+    padding: 12px 4px; /* Reduced padding for mobile */
+    min-height: 65px;
+  }
+
+  .day-name {
+    font-size: 9px;
+  }
+
+  .day-number {
+    font-size: 15px;
+  }
+
+  .today-indicator {
+    width: 4px;
+    height: 4px;
+    bottom: 4px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .calendar-grid {
+    grid-template-columns: repeat(7, 1fr);
+    width: 100%;
+    gap: 8px;
+  }
+
+  .calendar-day {
+    padding: 16px 6px;
+  }
+}

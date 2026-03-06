@@ -1,0 +1,529 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Display", "Segoe UI",
+    "Roboto", sans-serif;
+  background-color: #fff4e9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.app {
+  background-color: #fff4e9;
+  padding: 40px 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.date {
+  font-size: 20px;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+  letter-spacing: -0.5px;
+  text-align: left;
+}
+
+/* Design Section */
+.DesignC {
+  margin-bottom: 32px;
+}
+
+.DesignH {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #f4a889;
+  margin-bottom: 16px;
+  border: 10px;
+}
+
+.DesignS {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  gap: 16px;
+  background-color: #f1f1ec;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.DesignS2 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #2a2a2a;
+  line-height: 1.5;
+  cursor: pointer;
+  flex: 1;
+}
+
+/* Personal Section */
+.PersonalC {
+  margin-bottom: 32px;
+}
+
+.PersonalH {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #f4a889;
+  margin-bottom: 16px;
+}
+
+.PersonalS {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  gap: 16px;
+  background-color: #f1f1ec;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.PersonalS2 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #333333;
+  line-height: 1.5;
+  cursor: pointer;
+  flex: 1;
+}
+
+/* House Section */
+.HouseC {
+  margin-bottom: 32px;
+}
+
+.HouseH {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #f4a889;
+  margin-bottom: 16px;
+}
+
+.HouseS {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  gap: 16px;
+  background-color: #f1f1ec;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.HouseS2 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #333333;
+  line-height: 1.5;
+  cursor: pointer;
+  flex: 1;
+}
+
+/* Custom Checkbox - Universal for all sections */
+.DesignS input[type="checkbox"],
+.PersonalS input[type="checkbox"],
+.HouseS input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border: 2px solid #d0d0c8;
+  border-radius: 4px;
+  background-color: #f5f5f0;
+  cursor: pointer;
+  position: relative;
+  margin-top: 2px;
+  transition: all 0.2s ease;
+}
+
+.DesignS input[type="checkbox"]:hover,
+.PersonalS input[type="checkbox"]:hover,
+.HouseS input[type="checkbox"]:hover {
+  border-color: #a0a098;
+}
+
+.DesignS input[type="checkbox"]:checked,
+.PersonalS input[type="checkbox"]:checked,
+.HouseS input[type="checkbox"]:checked {
+  background-color: #00b8d4;
+  border-color: #00b8d4;
+}
+
+.DesignS input[type="checkbox"]:checked::after,
+.PersonalS input[type="checkbox"]:checked::after,
+.HouseS input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Strikethrough when checked */
+.DesignS input[type="checkbox"]:checked + .DesignS2,
+.PersonalS input[type="checkbox"]:checked + .PersonalS2,
+.HouseS input[type="checkbox"]:checked + .HouseS2 {
+  text-decoration: line-through;
+  color: #8a8a82;
+}
+
+/* New Task Form */
+form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+form input[type="text"] {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 400;
+  color: #333333;
+  background-color: #ffffff;
+  border: 2px solid #e0e0d8;
+  border-radius: 50px;
+  outline: none;
+  padding: 12px 16px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  min-width: 0;
+}
+
+form input[type="text"]:focus {
+  border-color: #f4a889;
+  box-shadow: 0 0 0 3px rgba(244, 168, 137, 0.1);
+  background-color: #ffffff;
+}
+
+form input[type="text"]::placeholder {
+  color: #9a9a92;
+  font-weight: 400;
+}
+
+.category {
+  background-color: #ffffff;
+  color: #9a9a92;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 18px;
+  border: 2px solid #e0e0d8;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.category:hover {
+  border-color: #f4a889;
+  background-color: #fffaf7;
+}
+
+form input:hover {
+  border-color: #f4a889;
+  background-color: #fffaf7;
+}
+
+/* Dropdown options styling */
+.category option {
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
+  background-color: #ffffff;
+  border: 2px solid #e0e0d8;
+}
+
+/* Add Button */
+form button {
+  background-color: #333333;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+form button:hover {
+  background-color: #f29975;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(244, 168, 137, 0.3);
+}
+
+form button:active {
+  transform: translateY(0);
+}
+
+/* Delete Button*/
+.DeleteBtn {
+  background-color: transparent;
+  color: #f4a889;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border: 1.5px solid #f4a889;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  margin-left: auto;
+  font-family: inherit;
+}
+
+.DeleteBtn:hover {
+  background-color: #f4a889;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(244, 168, 137, 0.25);
+}
+
+.DeleteBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(244, 168, 137, 0.2);
+}
+
+.install-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #f4a889;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(244, 168, 137, 0.3);
+  z-index: 1000;
+  transition: all 0.2s ease;
+}
+
+.install-button:hover {
+  background-color: #f29975;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(244, 168, 137, 0.4);
+}
+
+@media (max-width: 480px) {
+  .install-button {
+    top: 10px;
+    right: 10px;
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN - TABLET
+   ============================================ */
+@media (max-width: 768px) {
+  .app {
+    padding: 30px 24px;
+  }
+
+  .date {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .DesignH,
+  .PersonalH,
+  .HouseH {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  .DesignS,
+  .PersonalS,
+  .HouseS {
+    padding: 16px;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .DesignS2,
+  .PersonalS2,
+  .HouseS2 {
+    font-size: 15px;
+  }
+
+  form {
+    gap: 10px;
+    padding-top: 20px;
+  }
+
+  form input[type="text"] {
+    font-size: 14px;
+    padding: 10px 14px;
+  }
+
+  .category {
+    font-size: 13px;
+    padding: 10px 16px;
+  }
+
+  form button {
+    font-size: 13px;
+    padding: 10px 20px;
+  }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN - MOBILE
+   ============================================ */
+@media (max-width: 480px) {
+  .app {
+    padding: 20px 16px;
+  }
+
+  .date {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .DesignH,
+  .PersonalH,
+  .HouseH {
+    font-size: 13px;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .DesignS,
+  .PersonalS,
+  .HouseS {
+    padding: 14px;
+    gap: 10px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+  }
+
+  .DesignS2,
+  .PersonalS2,
+  .HouseS2 {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  /* Stack form elements on very small screens */
+  form {
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 16px;
+  }
+
+  form input[type="text"] {
+    width: 100%;
+    font-size: 14px;
+    padding: 12px 16px;
+  }
+
+  .category {
+    width: 100%;
+    font-size: 14px;
+    padding: 12px 16px;
+    text-align: center;
+  }
+
+  form button {
+    width: 100%;
+    font-size: 14px;
+    padding: 12px 16px;
+  }
+
+  /* Adjust checkbox size for easier mobile tapping */
+  .DesignS input[type="checkbox"],
+  .PersonalS input[type="checkbox"],
+  .HouseS input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+  }
+
+  .DesignS input[type="checkbox"]:checked::after,
+  .PersonalS input[type="checkbox"]:checked::after,
+  .HouseS input[type="checkbox"]:checked::after {
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 9px;
+  }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN - LARGE SCREENS
+   ============================================ */
+@media (min-width: 1200px) {
+  .app {
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 12px;
+  }
+}
+
+/* Fix keyboard covering inputs on mobile */
+@media (max-width: 480px) {
+  /* Ensure form is visible when keyboard appears */
+  form {
+    margin-bottom: 20px;
+  }
+
+  /* Add padding to bottom of app when input is focused */
+  .app {
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+  }
+
+  /* Scroll input into view when focused */
+  form input[type="text"]:focus {
+    scroll-margin-bottom: 300px;
+  }
+}
+
+.past-date-message {
+  text-align: center;
+  padding: 20px;
+  margin-top: 20px;
+  background-color: #fff5f5;
+  border: 2px solid #f4a889;
+  border-radius: 12px;
+  color: #333333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .past-date-message {
+    font-size: 13px;
+    padding: 16px;
+    margin-top: 16px;
+  }
+}
