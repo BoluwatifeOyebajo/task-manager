@@ -1,31 +1,44 @@
-export default function Personal({
+interface Task {
+  id: string;
+  text: string;
+  done: boolean;
+}
+
+interface DesignProps {
+  tasks: Task[];
+  onDoneTask: (id: string) => void;
+  onDeleteTask: (id: string) => void;
+  onNavigate: () => void;
+  showHeader?: boolean;
+}
+
+export default function Design({
   tasks,
   onDoneTask,
   onDeleteTask,
   onNavigate,
   showHeader = true,
-}) {
+}: DesignProps) {
   return (
-    <div className="PersonalC">
+    <div className="DesignC">
       {showHeader && (
         <h4
-          className="PersonalH"
+          className="DesignH"
           onClick={onNavigate}
           style={{ cursor: "pointer" }}
         >
-          PERSONAL
+          WORK
         </h4>
       )}
       {tasks.map((task) => (
-        <span key={task.id} className="PersonalS">
+        <span key={task.id} className="DesignS">
           <input
             type="checkbox"
             checked={task.done}
             onChange={() => onDoneTask(task.id)}
           />
-          <span className="PersonalS2">{task.text} </span>
+          <span className="DesignS2">{task.text}</span>
 
-          {/* delete button */}
           <button className="DeleteBtn" onClick={() => onDeleteTask(task.id)}>
             Delete
           </button>
