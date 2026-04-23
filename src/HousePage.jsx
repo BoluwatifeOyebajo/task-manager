@@ -1,16 +1,6 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import "./HousePage.css";
 import House from "./House";
-import type { Task } from "./types";
-
-interface HousePageProps {
-  tasks: Task[];
-  onDoneTask: (id: string) => void;
-  onDeleteTask: (id: string) => void;
-  onAddTask: (task: Task) => void;
-  onBack: () => void;
-  selectedDate: string;
-}
 
 export default function HousePage({
   tasks,
@@ -19,16 +9,15 @@ export default function HousePage({
   onAddTask,
   onBack,
   selectedDate,
-}: HousePageProps) {
+}) {
   const [newTaskText, setNewTaskText] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef(null);
 
   const uncompletedTasks = tasks.filter((task) => !task.done);
   const completedTasks = tasks.filter((task) => task.done);
 
   const isPastDate = selectedDate < new Date().toDateString();
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e) {
     e.preventDefault();
 
     if (!newTaskText.trim()) return;
@@ -39,14 +28,15 @@ export default function HousePage({
     }
 
     onAddTask({
-      id: String(Date.now()),
+      id: Date.now(),
       text: newTaskText,
-      category: "house",  // ← fixed: was "work"
+      category: "work",
       done: false,
     });
 
     setNewTaskText("");
 
+    // Blur input to dismiss keyboard AFTER state update
     setTimeout(() => {
       if (inputRef.current) {
         inputRef.current.blur();
@@ -63,7 +53,6 @@ export default function HousePage({
         onDoneTask={onDoneTask}
         onDeleteTask={onDeleteTask}
         showHeader={true}
-        onNavigate={onBack}
       />
 
       {completedTasks.length > 0 && (
@@ -74,7 +63,6 @@ export default function HousePage({
             onDoneTask={onDoneTask}
             onDeleteTask={onDeleteTask}
             showHeader={false}
-            onNavigate={onBack}
           />
         </>
       )}

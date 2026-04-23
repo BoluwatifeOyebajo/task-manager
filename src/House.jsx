@@ -1,20 +1,10 @@
-import type { Task } from "./types";
-
-interface HouseProps {
-  tasks: Task[];
-  onDoneTask: (id: string) => void;
-  onDeleteTask: (id: string) => void;
-  onNavigate: () => void;
-  showHeader?: boolean;
-}
-
 export default function House({
   tasks,
   onDoneTask,
   onDeleteTask,
   onNavigate,
   showHeader = true,
-}: HouseProps) {
+}) {
   return (
     <div className="HouseC">
       {showHeader && (
@@ -35,6 +25,7 @@ export default function House({
           />
           <span className="HouseS2">{task.text}</span>
 
+          {/* delete button */}
           <button className="DeleteBtn" onClick={() => onDeleteTask(task.id)}>
             Delete
           </button>

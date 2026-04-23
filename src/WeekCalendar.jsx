@@ -1,20 +1,17 @@
+import React from "react";
 import "./WeekCalendar.css";
 
-interface WeekCalendarProps {
-  selectedDate: string;
-  onDateSelect: (date: Date) => void;
-}
-
-export default function WeekCalendar({ selectedDate, onDateSelect }: WeekCalendarProps) {
-  function getWeekDays(): Date[] {
+export default function WeekCalendar({ selectedDate, onDateSelect }) {
+  // Get current week days
+  function getWeekDays() {
     const today = new Date();
-    const currentDay = today.getDay();
-    const diff = currentDay === 0 ? -6 : 1 - currentDay;
+    const currentDay = today.getDay(); // 0 = Sunday, 1 = Monday, etc.
+    const diff = currentDay === 0 ? -6 : 1 - currentDay; // Adjust to start week on Monday
 
     const monday = new Date(today);
     monday.setDate(today.getDate() + diff);
 
-    const weekDays: Date[] = [];
+    const weekDays = [];
     for (let i = 0; i < 7; i++) {
       const day = new Date(monday);
       day.setDate(monday.getDate() + i);
@@ -28,7 +25,8 @@ export default function WeekCalendar({ selectedDate, onDateSelect }: WeekCalenda
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  function isSameDay(date1: Date | string, date2: Date | string): boolean {
+  function isSameDay(date1, date2) {
+    // Handle comparison between Date object and string
     const dateStr1 = typeof date1 === "string" ? date1 : date1.toDateString();
     const dateStr2 = typeof date2 === "string" ? date2 : date2.toDateString();
     return dateStr1 === dateStr2;

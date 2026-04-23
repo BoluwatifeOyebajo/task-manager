@@ -1,7 +1,5 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase";
 import WeekCalendar from "./WeekCalendar";
 import Design from "./Design";
 import Personal from "./Personal";
@@ -11,16 +9,9 @@ import PersonalPage from "./PersonalPage";
 import DesignPage from "./DesignPage";
 import HousePage from "./HousePage";
 import Intro from "./Intro";
-import Login from "./Login";
-import type { Task } from "./types";
-
-interface DeferredPromptEvent extends Event {
-  prompt: () => void;
-  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
-}
 
 export default function App() {
-  const [tasks, setTasks] = useState<Task[]>(() => {
+  const [tasks, setTasks] = useState(() => {
     try {
       const savedTasks = localStorage.getItem("tasks");
       return savedTasks ? JSON.parse(savedTasks) : [];
@@ -30,50 +21,36 @@ export default function App() {
     }
   });
 
-  const [page, setPage] = useState("login");
-  const [authReady, setAuthReady] = useState(false); // ← prevents flash of login screen
+  const [page, setPage] = useState("intro");
   const [selectedDate, setSelectedDate] = useState(new Date().toDateString());
-  const [deferredPrompt, setDeferredPrompt] = useState<DeferredPromptEvent | null>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstallButton, setShowInstallButton] = useState(false);
 
-  // ✅ Listen to Firebase auth state — redirects to login if signed out
-   useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, (user) => {
-    if (!user) {
-      setPage("login");
-    }
-    setAuthReady(true);
-  });
-
-  return () => unsubscribe();
-}, []); // eslint-disable-line react-hooks/exhaustive-deps
-
+  // ✅ ADDED: Helper function to check if date is in the past
   const isPastDate = () => {
     const selected = new Date(selectedDate);
     const today = new Date();
+
+    // Set both to midnight for accurate comparison
     selected.setHours(0, 0, 0, 0);
     today.setHours(0, 0, 0, 0);
+
     return selected < today;
   };
 
+  // PWA Install Prompt
   useEffect(() => {
-    const handleBeforeInstall = (e: Event) => {
+    window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
-      setDeferredPrompt(e as DeferredPromptEvent);
+      setDeferredPrompt(e);
       setShowInstallButton(true);
-    };
+      console.log("PWA install prompt available");
+    });
 
-    const handleAppInstalled = () => {
+    window.addEventListener("appinstalled", () => {
+      console.log("PWA installed successfully");
       setShowInstallButton(false);
-    };
-
-    window.addEventListener("beforeinstallprompt", handleBeforeInstall);
-    window.addEventListener("appinstalled", handleAppInstalled);
-
-    return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstall);
-      window.removeEventListener("appinstalled", handleAppInstalled);
-    };
+    });
   }, []);
 
   const handleInstallClick = () => {
@@ -89,41 +66,51 @@ export default function App() {
     }
   };
 
+  // LOAD
   useEffect(() => {
     const saved = localStorage.getItem("tasks");
-    if (saved) setTasks(JSON.parse(saved));
+    if (saved) {
+      setTasks(JSON.parse(saved));
+    }
   }, []);
 
+  // SAVE
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  function handleAddTask(task: Task) {
+  // ✅ UPDATED: Use proper date comparison
+  function handleAddTask(task) {
+    // Check if selected date is in the past using the helper function
     if (isPastDate()) {
       alert("You cannot add tasks to past dates!");
       return;
     }
-    const taskWithDate: Task = { ...task, date: selectedDate };
-    setTasks((prev: Task[]) => [...prev, taskWithDate]);
+
+    const taskWithDate = {
+      ...task,
+      date: selectedDate,
+    };
+    setTasks((tasks) => [...tasks, taskWithDate]);
   }
 
-  function handleDoneTask(id: string) {
-    setTasks((prev: Task[]) =>
-      prev.map((task: Task) =>
+  function handleDoneTask(id) {
+    setTasks((tasks) =>
+      tasks.map((task) =>
         task.id === id ? { ...task, done: !task.done } : task,
       ),
     );
   }
 
-  function handleDeleteTask(taskId: string) {
-    setTasks((prev: Task[]) => prev.filter((task: Task) => task.id !== taskId));
+  function handleDeleteTask(taskId) {
+    setTasks((tasks) => tasks.filter((task) => task.id !== taskId));
   }
 
-  function handleNavigate(pageName: string) {
+  function handleNavigate(pageName) {
     setPage(pageName);
   }
 
-  function handleDateSelect(date: Date) {
+  function handleDateSelect(date) {
     setSelectedDate(date.toDateString());
   }
 
@@ -132,26 +119,22 @@ export default function App() {
   }
 
   const tasksForSelectedDate = tasks.filter(
-    (task: Task) => task.date === selectedDate,
+    (task) => task.date === selectedDate,
   );
 
   const designTasks = tasksForSelectedDate.filter(
-    (task: Task) => task.category === "work",
+    (task) => task.category === "work",
   );
   const personalTasks = tasksForSelectedDate.filter(
-    (task: Task) => task.category === "personal",
+    (task) => task.category === "personal",
   );
   const houseTasks = tasksForSelectedDate.filter(
-    (task: Task) => task.category === "house",
+    (task) => task.category === "house",
   );
 
-  // ✅ Don't render anything until Firebase has checked auth state
-  if (!authReady) {
-    return <div style={{ textAlign: "center", marginTop: "100px" }}>Loading...</div>;
+  if (page === "intro") {
+    return <Intro onContinue={handleContinueFromIntro} />;
   }
-
-  if (page === "login") return <Login onLogin={() => setPage("intro")} />;
-  if (page === "intro") return <Intro onContinue={handleContinueFromIntro} />;
 
   if (page === "work") {
     return (
@@ -199,6 +182,7 @@ export default function App() {
           Install App
         </button>
       )}
+
       <WeekCalendar
         selectedDate={selectedDate}
         onDateSelect={handleDateSelect}
@@ -221,7 +205,9 @@ export default function App() {
         onDeleteTask={handleDeleteTask}
         onNavigate={() => handleNavigate("house")}
       />
+
       {!isPastDate() && <New onAddTask={handleAddTask} />}
+
       {isPastDate() && (
         <div className="past-date-message">
           You cannot add tasks to past dates. Select today or a future date.

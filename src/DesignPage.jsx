@@ -1,16 +1,6 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import "./DesignPage.css";
 import Design from "./Design";
-import type { Task } from "./types";
-
-interface DesignPageProps {
-  tasks: Task[];
-  onDoneTask: (id: string) => void;
-  onDeleteTask: (id: string) => void;
-  onAddTask: (task: Task) => void;
-  onBack: () => void;
-  selectedDate: string;
-}
 
 export default function DesignPage({
   tasks,
@@ -19,16 +9,17 @@ export default function DesignPage({
   onAddTask,
   onBack,
   selectedDate,
-}: DesignPageProps) {
+}) {
   const [newTaskText, setNewTaskText] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef(null);
 
   const uncompletedTasks = tasks.filter((task) => !task.done);
   const completedTasks = tasks.filter((task) => task.done);
 
+  // Check if selected date is in the past
   const isPastDate = selectedDate < new Date().toDateString();
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e) {
     e.preventDefault();
 
     if (!newTaskText.trim()) return;
@@ -39,7 +30,7 @@ export default function DesignPage({
     }
 
     onAddTask({
-      id: String(Date.now()),
+      id: Date.now(),
       text: newTaskText,
       category: "work",
       done: false,
@@ -47,6 +38,7 @@ export default function DesignPage({
 
     setNewTaskText("");
 
+    // Blur input to dismiss keyboard AFTER state update
     setTimeout(() => {
       if (inputRef.current) {
         inputRef.current.blur();
@@ -58,14 +50,15 @@ export default function DesignPage({
     <div className="design-page">
       <button onClick={onBack}>Back</button>
 
+      {/* Uncompleted Tasks */}
       <Design
         tasks={uncompletedTasks}
         onDoneTask={onDoneTask}
         onDeleteTask={onDeleteTask}
         showHeader={true}
-        onNavigate={onBack}
       />
 
+      {/* Completed Section */}
       {completedTasks.length > 0 && (
         <>
           <div className="completed-header">COMPLETED</div>
@@ -74,11 +67,11 @@ export default function DesignPage({
             onDoneTask={onDoneTask}
             onDeleteTask={onDeleteTask}
             showHeader={false}
-            onNavigate={onBack}
           />
         </>
       )}
 
+      {/* Only show form if not a past date */}
       {!isPastDate ? (
         <form onSubmit={handleSubmit}>
           <input
@@ -88,6 +81,7 @@ export default function DesignPage({
             value={newTaskText}
             onChange={(e) => setNewTaskText(e.target.value)}
           />
+
           <button type="submit">Add</button>
         </form>
       ) : (

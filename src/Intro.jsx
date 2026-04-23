@@ -1,15 +1,11 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./Intro.css";
 
-interface IntroProps {
-  onContinue: () => void;
-}
-
-export default function Intro({ onContinue }: IntroProps) {
+export default function Intro({ onContinue }) {
   const [greeting, setGreeting] = useState("");
   const [quote, setQuote] = useState("");
 
-  const quotes: string[] = [
+  const quotes = [
     "Small daily improvements are the key to staggering long-term results.",
     "Success is the sum of small efforts repeated day in and day out.",
     "You don't have to be great to start, but you have to start to be great.",
@@ -23,6 +19,7 @@ export default function Intro({ onContinue }: IntroProps) {
   ];
 
   useEffect(() => {
+    // Set greeting based on time of day
     const hour = new Date().getHours();
     if (hour < 12) {
       setGreeting("Good Morning");
@@ -32,8 +29,9 @@ export default function Intro({ onContinue }: IntroProps) {
       setGreeting("Good Evening");
     }
 
+    // Pick a random quote
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    setQuote(randomQuote ?? "");
+    setQuote(randomQuote);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
