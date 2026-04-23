@@ -37,22 +37,16 @@ export default function App() {
   const [showInstallButton, setShowInstallButton] = useState(false);
 
   // ✅ Listen to Firebase auth state — redirects to login if signed out
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in — go to intro only on first login
-        if (page === "login") {
-          setPage("intro");
-        }
-      } else {
-        // User is signed out — always redirect to login
-        setPage("login");
-      }
-      setAuthReady(true); // auth has been checked
-    });
+   useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      setPage("login");
+    }
+    setAuthReady(true);
+  });
 
-    return () => unsubscribe(); // cleanup listener on unmount
-  }, []);
+  return () => unsubscribe();
+}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const isPastDate = () => {
     const selected = new Date(selectedDate);
