@@ -5,9 +5,10 @@
     "outDir": "./dist",
 
     // Environment Settings
-    "module": "nodenext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "target": "esnext",
-    "types": ["jest"],      
+    "types": ["jest","react", "react-dom"],      
 
     // Migration
     "allowJs": true,       

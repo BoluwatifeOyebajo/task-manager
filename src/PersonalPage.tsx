@@ -1,6 +1,17 @@
 import { useState, useRef } from "react";
+import React from "react";
 import "./PersonalPage.css";
 import Personal from "./Personal";
+import type { Task } from "./types";
+
+interface PersonalPageProps {
+  tasks: Task[];
+  onDoneTask: (id: string) => void;
+  onDeleteTask: (id: string) => void;
+  onAddTask: (task: Task) => void;
+  onBack: () => void;
+  selectedDate: string;
+}
 
 export default function PersonalPage({
   tasks,
@@ -9,16 +20,16 @@ export default function PersonalPage({
   onAddTask,
   onBack,
   selectedDate,
-}) {
+}: PersonalPageProps) {
   const [newTaskText, setNewTaskText] = useState("");
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const uncompletedTasks = tasks.filter((task) => !task.done);
   const completedTasks = tasks.filter((task) => task.done);
 
   const isPastDate = selectedDate < new Date().toDateString();
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!newTaskText.trim()) return;
@@ -29,15 +40,14 @@ export default function PersonalPage({
     }
 
     onAddTask({
-      id: Date.now(),
+      id: String(Date.now()),
       text: newTaskText,
-      category: "work",
+      category: "personal",  // ← fixed: was "work"
       done: false,
     });
 
     setNewTaskText("");
 
-    // Blur input to dismiss keyboard AFTER state update
     setTimeout(() => {
       if (inputRef.current) {
         inputRef.current.blur();
@@ -53,6 +63,7 @@ export default function PersonalPage({
         onDoneTask={onDoneTask}
         onDeleteTask={onDeleteTask}
         showHeader={true}
+        onNavigate={onBack}
       />
       {completedTasks.length > 0 && (
         <>
@@ -62,6 +73,7 @@ export default function PersonalPage({
             onDoneTask={onDoneTask}
             onDeleteTask={onDeleteTask}
             showHeader={false}
+            onNavigate={onBack}
           />
         </>
       )}

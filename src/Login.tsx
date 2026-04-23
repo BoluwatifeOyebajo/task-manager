@@ -1,8 +1,11 @@
-// src/Login.jsx
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "./firebase";
 
-export default function Login({ onLogin }) {
+interface LoginProps {
+  onLogin: () => void;
+}
+
+export default function Login({ onLogin }: LoginProps) {
   const handleGoogleLogin = async () => {
     try {
       await signInWithPopup(auth, googleProvider);

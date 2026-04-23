@@ -1,10 +1,24 @@
+interface Task {
+  id: string;
+  text: string;
+  done: boolean;
+}
+
+interface DesignProps {
+  tasks: Task[];
+  onDoneTask: (id: string) => void;
+  onDeleteTask: (id: string) => void;
+  onNavigate: () => void;
+  showHeader?: boolean;
+}
+
 export default function Design({
   tasks,
   onDoneTask,
   onDeleteTask,
   onNavigate,
   showHeader = true,
-}) {
+}: DesignProps) {
   return (
     <div className="DesignC">
       {showHeader && (
@@ -25,7 +39,6 @@ export default function Design({
           />
           <span className="DesignS2">{task.text}</span>
 
-          {/* delete button */}
           <button className="DeleteBtn" onClick={() => onDeleteTask(task.id)}>
             Delete
           </button>
