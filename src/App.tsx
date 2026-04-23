@@ -9,6 +9,8 @@ import PersonalPage from "./PersonalPage";
 import DesignPage from "./DesignPage";
 import HousePage from "./HousePage";
 import Intro from "./Intro";
+import { auth } from "./firebase";
+import Login from "./Login";
 
 export default function App() {
   const [tasks, setTasks] = useState(() => {
@@ -21,7 +23,7 @@ export default function App() {
     }
   });
 
-  const [page, setPage] = useState("intro");
+  const [page, setPage] = useState("login");
   const [selectedDate, setSelectedDate] = useState(new Date().toDateString());
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstallButton, setShowInstallButton] = useState(false);
@@ -131,6 +133,10 @@ export default function App() {
   const houseTasks = tasksForSelectedDate.filter(
     (task) => task.category === "house",
   );
+
+  if (page === "login") {
+    return <Login onLogin={() => setPage("intro")} />;
+  }
 
   if (page === "intro") {
     return <Intro onContinue={handleContinueFromIntro} />;
