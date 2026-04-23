@@ -1,10 +1,16 @@
-import { useState, useRef } from "react"; //this
+import { useState, useRef } from "react";
+import React from "react";
 import CustomSelect from "./CustomSelect";
+import type { Task } from "./types";
 
-export default function New({ onAddTask }) {
+interface NewProps {
+  onAddTask: (task: Task) => void;
+}
+
+export default function New({ onAddTask }: NewProps) {
   const [task, setTask] = useState("");
   const [category, setCategory] = useState("work");
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const categoryOptions = [
     { value: "work", label: "Work" },
@@ -12,44 +18,40 @@ export default function New({ onAddTask }) {
     { value: "house", label: "House" },
   ];
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!task.trim()) return;
 
-    const newTask = {
-      id: Date.now(),
+    const newTask: Task = {
+      id: String(Date.now()),
       text: task,
       done: false,
-      category: category,
+      category,
+      date: new Date().toDateString(),
     };
 
     onAddTask(newTask);
     setTask("");
 
-    // Blur input to dismiss keyboard AFTER state update
     setTimeout(() => {
-      if (inputRef.current) {
-        inputRef.current.blur();
-      }
+      if (inputRef.current) inputRef.current.blur();
     }, 100);
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <input
-        ref={inputRef} //this
+        ref={inputRef}
         type="text"
         value={task}
         onChange={(e) => setTask(e.target.value)}
         placeholder="Add a task..."
       />
-
       <CustomSelect
         value={category}
         onChange={setCategory}
         options={categoryOptions}
       />
-
       <button type="submit">Add</button>
     </form>
   );

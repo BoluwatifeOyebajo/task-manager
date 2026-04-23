@@ -9,9 +9,17 @@ import PersonalPage from "./PersonalPage";
 import DesignPage from "./DesignPage";
 import HousePage from "./HousePage";
 import Intro from "./Intro";
+import type { Task } from "./types";
+
+type PageName = "intro" | "home" | "work" | "personal" | "house";
+
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => void;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+}
 
 export default function App() {
-  const [tasks, setTasks] = useState(() => {
+  const [tasks, setTasks] = useState<Task[]>(() => {
     try {
       const savedTasks = localStorage.getItem("tasks");
       return savedTasks ? JSON.parse(savedTasks) : [];
@@ -21,36 +29,39 @@ export default function App() {
     }
   });
 
-  const [page, setPage] = useState("intro");
+  const [page, setPage] = useState<PageName>("intro");
   const [selectedDate, setSelectedDate] = useState(new Date().toDateString());
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [deferredPrompt, setDeferredPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
   const [showInstallButton, setShowInstallButton] = useState(false);
 
-  // ✅ ADDED: Helper function to check if date is in the past
-  const isPastDate = () => {
+  const isPastDate = (): boolean => {
     const selected = new Date(selectedDate);
     const today = new Date();
-
-    // Set both to midnight for accurate comparison
     selected.setHours(0, 0, 0, 0);
     today.setHours(0, 0, 0, 0);
-
     return selected < today;
   };
 
   // PWA Install Prompt
   useEffect(() => {
-    window.addEventListener("beforeinstallprompt", (e) => {
+    const handleBeforeInstall = (e: Event) => {
       e.preventDefault();
-      setDeferredPrompt(e);
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
       setShowInstallButton(true);
-      console.log("PWA install prompt available");
-    });
+    };
 
-    window.addEventListener("appinstalled", () => {
-      console.log("PWA installed successfully");
+    const handleAppInstalled = () => {
       setShowInstallButton(false);
-    });
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstall);
+    window.addEventListener("appinstalled", handleAppInstalled);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstall);
+      window.removeEventListener("appinstalled", handleAppInstalled);
+    };
   }, []);
 
   const handleInstallClick = () => {
@@ -70,7 +81,11 @@ export default function App() {
   useEffect(() => {
     const saved = localStorage.getItem("tasks");
     if (saved) {
-      setTasks(JSON.parse(saved));
+      try {
+        setTasks(JSON.parse(saved));
+      } catch {
+        console.error("Failed to load tasks");
+      }
     }
   }, []);
 
@@ -79,38 +94,32 @@ export default function App() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  // ✅ UPDATED: Use proper date comparison
-  function handleAddTask(task) {
-    // Check if selected date is in the past using the helper function
+  function handleAddTask(task: Task) {
     if (isPastDate()) {
       alert("You cannot add tasks to past dates!");
       return;
     }
-
-    const taskWithDate = {
-      ...task,
-      date: selectedDate,
-    };
-    setTasks((tasks) => [...tasks, taskWithDate]);
+    const taskWithDate: Task = { ...task, date: selectedDate };
+    setTasks((prev) => [...prev, taskWithDate]);
   }
 
-  function handleDoneTask(id) {
-    setTasks((tasks) =>
-      tasks.map((task) =>
-        task.id === id ? { ...task, done: !task.done } : task,
-      ),
+  function handleDoneTask(id: string) {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id ? { ...task, done: !task.done } : task
+      )
     );
   }
 
-  function handleDeleteTask(taskId) {
-    setTasks((tasks) => tasks.filter((task) => task.id !== taskId));
+  function handleDeleteTask(taskId: string) {
+    setTasks((prev) => prev.filter((task) => task.id !== taskId));
   }
 
-  function handleNavigate(pageName) {
+  function handleNavigate(pageName: PageName) {
     setPage(pageName);
   }
 
-  function handleDateSelect(date) {
+  function handleDateSelect(date: Date) {
     setSelectedDate(date.toDateString());
   }
 
@@ -119,17 +128,17 @@ export default function App() {
   }
 
   const tasksForSelectedDate = tasks.filter(
-    (task) => task.date === selectedDate,
+    (task) => task.date === selectedDate
   );
 
   const designTasks = tasksForSelectedDate.filter(
-    (task) => task.category === "work",
+    (task) => task.category === "work"
   );
   const personalTasks = tasksForSelectedDate.filter(
-    (task) => task.category === "personal",
+    (task) => task.category === "personal"
   );
   const houseTasks = tasksForSelectedDate.filter(
-    (task) => task.category === "house",
+    (task) => task.category === "house"
   );
 
   if (page === "intro") {
